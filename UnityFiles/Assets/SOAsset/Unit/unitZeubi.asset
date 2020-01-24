@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71917146125e7f448b73609f545cad7a, type: 3}
+  m_Name: unitZeubi
+  m_EditorClassIdentifier: 
+  _name: zeuBi
+  _icon: {fileID: 21300000, guid: 6cd3007b10d0c5745a322b49e597d52b, type: 3}
+  _maxLife: 20
+  _displacement: 5
+  _competences:
+  - {fileID: 11400000, guid: a04ac0256f913d9408494102a8b51b43, type: 2}
