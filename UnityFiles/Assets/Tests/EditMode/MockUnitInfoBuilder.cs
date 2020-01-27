@@ -33,7 +33,7 @@ public class MockUnitInfoBuilder
         List<Competence> competencesToReturn = new List<Competence>();
         for (int i = 0; i < numberOfCompetencesToReturn; i++)
         {
-            competencesToReturn.Add(ScriptableObject.CreateInstance<Competence>());
+            competencesToReturn.Add(ScriptableObject.CreateInstance<MoveCompetence>());
         }
         _unitInfo.competences.Returns(competencesToReturn);
         return this;

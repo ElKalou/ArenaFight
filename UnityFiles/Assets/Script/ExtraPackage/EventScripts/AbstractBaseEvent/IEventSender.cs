@@ -1,6 +1,10 @@
 ﻿
-public interface IEventSender<T> where T : EventBase
+using UnityEngine;
+
+public interface IEventSender<EventType, DataType> where EventType : EventBase where DataType : ScriptableObject
 {
-    void SendEvent(T t);
+    EventType eventToSend { get; }
+
+    DataType boundData { get; }
 }
 

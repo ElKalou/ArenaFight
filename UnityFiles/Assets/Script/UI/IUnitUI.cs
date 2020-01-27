@@ -2,6 +2,6 @@
 
 public interface IUnitUI
 {
-    Transform parentTransform { get; }
+    RectTransform parentTransform { get; }
     CompetenceButton buttonPrefab { get; }
 }

@@ -33,7 +33,7 @@ namespace Tests
             UnitUIFactoryController controller = new UnitUIFactoryController(factory);
             UnitUI spawnedUnit = controller.SpawnUnitUI(unitInfo);
 
-            Assert.AreEqual(unitInfo, spawnedUnit.attachedUnit);
+            Assert.AreEqual(unitInfo, spawnedUnit.boundData);
         }
 
         [Test]

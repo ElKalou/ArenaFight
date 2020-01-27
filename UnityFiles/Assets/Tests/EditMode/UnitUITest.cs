@@ -21,22 +21,25 @@ namespace Tests
 
             UnitUI instance = controller.SpawnUnitUI(unitInfo);
 
-            Assert.NotNull(instance.attachedUnit);
-            Assert.AreEqual(unitInfo, instance.attachedUnit);
+            Assert.NotNull(instance.boundData);
+            Assert.AreEqual(unitInfo, instance.boundData);
         }
 
         [Test]
         public void Instanciate_Competence_Button_From_Prefab()
         {
+            //Arrange
             IUnitUI unitUI = Substitute.For<IUnitUI>();
             unitUI.buttonPrefab.Returns(A.CompetenceButtonPrefab());
-            unitUI.parentTransform.Returns(A.RandomTransform());
+            unitUI.parentTransform.Returns(A.RectTransform());
 
-            UnitUIController controller = new UnitUIController(unitUI);
+            CompetenceButtonFactory controller = new CompetenceButtonFactory(unitUI);
             IUnitInfo unitInfo = A.MockUnitInfo().WithCompetences(5).Build();
 
+            //Act
             List<CompetenceButton> instanceCompetenceButtons = controller.SpawnCompetenceButtons(unitInfo.competences);
 
+            //Assert
             foreach (CompetenceButton instance in instanceCompetenceButtons)
             {
                 CompetenceButton prefabOfInstance = PrefabUtility.GetCorrespondingObjectFromSource(instance);
@@ -47,12 +50,28 @@ namespace Tests
         [Test]
         public void Init_Competence_Button_After_Instanciation()
         {
-            
+            //Arrange
+            IUnitUI unitUI = Substitute.For<IUnitUI>();
+            unitUI.buttonPrefab.Returns(A.CompetenceButtonPrefab());
+            unitUI.parentTransform.Returns(A.RectTransform());
+
+            CompetenceButtonFactory controller = new CompetenceButtonFactory(unitUI);
+            IUnitInfo unitInfo = A.MockUnitInfo().WithCompetences(5).Build();
+
+            //Act
+            List<CompetenceButton> instanceCompetenceButtons = controller.SpawnCompetenceButtons(unitInfo.competences);
+
+            //Assert
+            for (int i = 0; i < instanceCompetenceButtons.Count; i++)
+            {
+                Assert.AreEqual(unitInfo.competences[i], instanceCompetenceButtons[i].boundCompetence);
+            }
         }
 
         [Test]
         public void Send_Event_Containing_Attached_Unit_On_Clik()
         {
+
 
         }
     }

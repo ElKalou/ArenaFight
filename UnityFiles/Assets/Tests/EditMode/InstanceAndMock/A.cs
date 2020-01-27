@@ -32,6 +32,11 @@ public class A
         return toReturn;
     }
 
+    public static RectTransform RectTransform()
+    {
+        return new GameObject().AddComponent<RectTransform>();
+    }
+
     public static UnitUI UnitUIPrefab()
     {
         return Resources.Load<UnitUI>("Test/UnitUITest");

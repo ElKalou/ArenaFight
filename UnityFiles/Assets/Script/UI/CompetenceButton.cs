@@ -11,17 +11,17 @@ public class CompetenceButton : MonoBehaviour
 
     [SerializeField] private CompetenceEvent compReadyToCast = null;
 
-    private Competence attachedCompetence = null;
+    public Competence boundCompetence { get; private set; }
 
     internal void Init(Competence receivedCompetence)
     {
-        attachedCompetence = receivedCompetence;
-        icon.sprite = attachedCompetence.icon;
+        boundCompetence = receivedCompetence;
+        icon.sprite = boundCompetence.icon;
     }
 
     public void OnClick()
     {
-        compReadyToCast.dataToSend = attachedCompetence;
+        compReadyToCast.dataToSend = boundCompetence;
         compReadyToCast.Raise();
     }
 }

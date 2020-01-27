@@ -2,16 +2,15 @@
 using UnityEditor;
 using UnityEngine;
 
-public class UnitUIController
+public class CompetenceButtonFactory
 {
-    Transform _parentTransform;
+    RectTransform _parentTransform;
     CompetenceButton _buttonPrefab;
 
-    public UnitUIController(IUnitUI unitUI)
+    public CompetenceButtonFactory(IUnitUI unitUI)
     {
         _parentTransform = unitUI.parentTransform;
         _buttonPrefab = unitUI.buttonPrefab;
-
     }
 
     public List<CompetenceButton> SpawnCompetenceButtons(List<Competence> competences)
