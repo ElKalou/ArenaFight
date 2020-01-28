@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class A 
 {
@@ -65,5 +66,16 @@ public class A
     public static InstanceType SO<InstanceType>() where InstanceType : ScriptableObject
     {
         return ScriptableObject.CreateInstance<InstanceType>();
+    }
+
+    public static EventListenerController<EventType, ListenerType, DataType> 
+        EventListenerController<EventType, ListenerType, DataType>(
+        IEventListener<EventType,  DataType> mockEventListener,
+        GameObject owner, UnityEvent<DataType> personalEvent)
+        where EventType:EventBase<DataType>
+        where ListenerType:ListenerBase<DataType>
+    {
+        return new EventListenerController<EventType, ListenerType, DataType>
+            (mockEventListener, owner, personalEvent);
     }
 }

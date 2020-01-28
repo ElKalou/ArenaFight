@@ -7,11 +7,18 @@ public class UnitEventListener : ListenerBase<UnitInfo>
     [SerializeField] private UnitEvent _eventToReact = null;
     [SerializeField] private BindEvent _onReceiveEvent = null;
 
-    public override EventBase<UnitInfo> eventToReact  => _eventToReact; 
-    public override UnityEvent<UnitInfo> onReceiveEvent => _onReceiveEvent; 
+    public override EventBase<UnitInfo> eventToReact {
+        get { return _eventToReact; }
+        set { _eventToReact = (UnitEvent)value; }
+    }
+    public override UnityEvent<UnitInfo> onReceiveEvent
+    {
+        get { return _onReceiveEvent; }
+        set { _onReceiveEvent = (BindEvent)value; }
+    }
 
     [Serializable]
-    public class BindEvent : UnityEventBase<UnitInfo> { }
+    public class BindEvent : UnityEvent<UnitInfo> { }
 
     public static void AddComponentAtRunTime(GameObject _entity, UnitEvent _eventToReact,
        UnityAction<UnitInfo> _onInvoke)

@@ -542,7 +542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 739413905}
   - component: {fileID: 739413906}
-  - component: {fileID: 739413907}
   m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
@@ -576,23 +575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5508079b84fd94642914c53aef4cf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionRequest: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
---- !u!114 &739413907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739413904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e0cc5ac366812849b12ba8dd90b2c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _eventToReact: {fileID: 0}
-  _onReceiveEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  _selectionRequest: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
+  _leftClick: {fileID: 11400000, guid: f8b00cdf4f1c364479e5c2738f027f8e, type: 2}
 --- !u!1 &882133553
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +745,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.4216273, y: -0, z: -0, w: 0.9067692}
-  m_LocalPosition: {x: 0, y: 21.6, z: -20.4}
+  m_LocalPosition: {x: 0, y: 21.6, z: -20.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -880,7 +864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1137162619
 Transform:
   m_ObjectHideFlags: 0
@@ -1119,7 +1103,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731720313}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1961218186}

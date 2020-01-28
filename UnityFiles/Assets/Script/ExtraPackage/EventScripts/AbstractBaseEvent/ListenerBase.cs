@@ -7,8 +7,9 @@ using UnityEngine.Events;
 
 public abstract class ListenerBase<Data> : MonoBehaviour
 {
-    public abstract EventBase<Data> eventToReact { get; }
-    public abstract UnityEvent<Data> onReceiveEvent { get; }
+
+    public abstract EventBase<Data> eventToReact { get; set; }
+    public abstract UnityEvent<Data> onReceiveEvent { get; set; }
 
     public void OnReceiveEvent(Data receivedData)
     {
@@ -38,8 +39,9 @@ public abstract class ListenerBase<Data> : MonoBehaviour
         }
     }
 
+    [Serializable]
+    public abstract class BindEvent<T> : UnityEvent<T> { }
 
-    public class UnityEventBase<T> : UnityEvent<T> { }
 }
 
 

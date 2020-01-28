@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventSender<UnitEvent, UnitInfo>
+public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventEmitter<UnitEvent, UnitInfo>
 {
     [Header("Component in children")]
     [SerializeField] private Image _unitIcon = null;
@@ -17,7 +17,7 @@ public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventSender<
     [SerializeField] private UnitEvent _selectionRequest = null;
 
     private CompetenceButtonFactory _compButtonFactory;
-    private EventController<UnitEvent, UnitInfo> _eventController;
+    private EventEmitterController<UnitEvent, UnitInfo> _eventController;
     private RectTransform _thisRectTransform;
 
     public UnitInfo boundData { get; private set; }
@@ -53,6 +53,6 @@ public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventSender<
 
     private void Awake()
     {
-        _eventController = new EventController<UnitEvent, UnitInfo>(this);
+        _eventController = new EventEmitterController<UnitEvent, UnitInfo>(this);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IEventSender<EventType, DataType> 
+public interface IEventEmitter<EventType, DataType> 
     where EventType : EventBase<DataType>
     where DataType : ScriptableObject
 {

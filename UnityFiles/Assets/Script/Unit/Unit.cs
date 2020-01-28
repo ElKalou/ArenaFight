@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour, IEventSender<UnitEvent, UnitInfo>
+public class Unit : MonoBehaviour, IEventEmitter<UnitEvent, UnitInfo>
 {
     [SerializeField] private UnitInfo _unitInfoTemplate = null;
     [SerializeField] private UnitEvent _eventSetupUI = null;
@@ -13,17 +13,17 @@ public class Unit : MonoBehaviour, IEventSender<UnitEvent, UnitInfo>
     public UnitInfo UnitInfoTemplate => _unitInfoTemplate;
     public UnitInfo boundData { get; private set; }
 
-    private EventController<UnitEvent, UnitInfo> _eventController;
+    private EventEmitterController<UnitEvent, UnitInfo> _eventController;
 
     private void Awake()
     {
-        _eventController = new EventController<UnitEvent, UnitInfo>(this);
+        _eventController = new EventEmitterController<UnitEvent, UnitInfo>(this);
     }
 
     public void Init()
     {
         if(_eventController == null)
-            _eventController = new EventController<UnitEvent, UnitInfo>(this);
+            _eventController = new EventEmitterController<UnitEvent, UnitInfo>(this);
 
         boundData = Instantiate(_unitInfoTemplate);
         boundData.Init(this);

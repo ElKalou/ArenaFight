@@ -248,7 +248,7 @@ MonoBehaviour:
   _lifeSlider: {fileID: 7762754223554742146}
   _buttonPrefab: {fileID: 4370001159997917248, guid: 1d9120a8a92a6744d973f3ed25110327,
     type: 3}
-  _selectionRequest: {fileID: 0}
+  _selectionRequest: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
 --- !u!114 &7762754223072769076
 MonoBehaviour:
   m_ObjectHideFlags: 0

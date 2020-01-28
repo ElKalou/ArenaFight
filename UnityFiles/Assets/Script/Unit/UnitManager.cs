@@ -10,12 +10,13 @@ public class UnitManager : MonoBehaviour
 
     public void OnReceiveSelectionRequest(UnitInfo infoReceived)
     {
-        if (currentUnitSelected != null && infoReceived == currentUnitSelected.GetUnitInfo())
+        Debug.Log("receive selection event");
+        if (currentUnitSelected != null && infoReceived == currentUnitSelected.boundUnit)
             return;
 
         if (currentUnitSelected != null)
             currentUnitSelected.Unselect();
-        currentUnitSelected = selectables.Find(v => v.GetUnitInfo() == infoReceived);
+        currentUnitSelected = selectables.Find(v => v.boundUnit == infoReceived);
         currentUnitSelected.Select();
     }
 
