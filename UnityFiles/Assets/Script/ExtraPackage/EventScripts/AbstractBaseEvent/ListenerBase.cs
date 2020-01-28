@@ -5,16 +5,28 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public abstract class ListenerBase<EventFamily> : MonoBehaviour
-    where EventFamily : EventBase
+public abstract class ListenerBase<Data> : MonoBehaviour
 {
-    public EventFamily eventToReact;
+    public abstract EventBase<Data> eventToReact { get; }
+    public abstract UnityEvent<Data> onReceiveEvent { get; }
 
-    public abstract void OnReceiveEvent(EventFamily receivedEvent);
+    public void OnReceiveEvent(Data receivedData)
+    {
+        onReceiveEvent.Invoke(receivedData);
+    }
 
-    protected abstract void OnEnable();
+    protected void OnDisable()
+    {
+        eventToReact.DeRegister(this);
+    }
 
-    protected abstract void OnDisable();
+    protected void OnEnable()
+    {
+        if (eventToReact == null)
+            return;
+
+        eventToReact.Register(this);
+    }
 
     public static IEnumerator WaitForPossibleEvent(int frameToWait)
     {
@@ -26,5 +38,8 @@ public abstract class ListenerBase<EventFamily> : MonoBehaviour
         }
     }
 
+
+    public class UnityEventBase<T> : UnityEvent<T> { }
 }
+
 

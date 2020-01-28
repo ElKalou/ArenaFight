@@ -10,6 +10,7 @@ namespace Tests
 {
     public class UnitUIFactoryTest
     {
+
         [Test]
         public void Instantiate_From_Prefab()
         {

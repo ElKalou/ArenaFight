@@ -61,4 +61,9 @@ public class A
     {
         return new MockUnitInfoBuilder();
     }
+
+    public static InstanceType SO<InstanceType>() where InstanceType : ScriptableObject
+    {
+        return ScriptableObject.CreateInstance<InstanceType>();
+    }
 }

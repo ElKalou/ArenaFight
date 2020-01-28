@@ -17,7 +17,7 @@ public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventSender<
     [SerializeField] private UnitEvent _selectionRequest = null;
 
     private CompetenceButtonFactory _compButtonFactory;
-    private EventSenderController<UnitEvent, UnitInfo> _eventSender;
+    private EventController<UnitEvent, UnitInfo> _eventController;
     private RectTransform _thisRectTransform;
 
     public UnitInfo boundData { get; private set; }
@@ -46,9 +46,13 @@ public class UnitUI : MonoBehaviour, IPointerDownHandler, IUnitUI, IEventSender<
         _compButtonFactory.SpawnCompetenceButtons(boundData.competences);
     }
 
-    public void OnPointerDown(PointerEventData eventData) //control by controller
+    public void OnPointerDown(PointerEventData eventData) 
     {
-        if (_eventSender == null)
-            _eventSender = new EventSenderController<UnitEvent, UnitInfo>(this);    
+        _eventController.RaiseEvent(this);              
+    }
+
+    private void Awake()
+    {
+        _eventController = new EventController<UnitEvent, UnitInfo>(this);
     }
 }

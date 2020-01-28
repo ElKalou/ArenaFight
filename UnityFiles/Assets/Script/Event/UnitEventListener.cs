@@ -1,53 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UnitEventListener : ListenerBase<UnitEvent>
+public class UnitEventListener : ListenerBase<UnitInfo>
 {
-    public attachedUnityEvent onReceiveEvent;
+    [SerializeField] private UnitEvent _eventToReact = null;
+    [SerializeField] private BindEvent _onReceiveEvent = null;
 
-    public override void OnReceiveEvent(UnitEvent receivedEvent)
-    {
-        onReceiveEvent.Invoke(receivedEvent.dataToSend);
-    }
+    public override EventBase<UnitInfo> eventToReact  => _eventToReact; 
+    public override UnityEvent<UnitInfo> onReceiveEvent => _onReceiveEvent; 
 
-    protected override void OnDisable()
-    {
-        eventToReact.DeRegister(this);
-    }
-
-    protected override void OnEnable()
-    {
-        if (eventToReact == null)
-            return;
-
-        eventToReact.Register(this);
-    }
+    [Serializable]
+    public class BindEvent : UnityEventBase<UnitInfo> { }
 
     public static void AddComponentAtRunTime(GameObject _entity, UnitEvent _eventToReact,
        UnityAction<UnitInfo> _onInvoke)
     {
         UnitEventListener newListener = _entity.AddComponent<UnitEventListener>();
-        newListener.eventToReact = _eventToReact;
+        newListener._eventToReact = _eventToReact;
         _eventToReact.Register(newListener);
-        newListener.onReceiveEvent = new attachedUnityEvent();
+        newListener._onReceiveEvent = new BindEvent();
         newListener.onReceiveEvent.AddListener(_onInvoke);
     }
 
-    public static UnitEvent AddComponentAtTestTime(GameObject _entity, UnityAction<UnitInfo> _onInvoke)
+    public static void AddComponentAtTestTime(UnitEventListener _listener,
+        UnitEvent _eventToReact, UnityAction<UnitInfo> _onInvoke)
     {
-        UnitEventListener newListener = _entity.AddComponent<UnitEventListener>();
-        UnitEvent eventToReact = ScriptableObject.CreateInstance<UnitEvent>();
-        newListener.eventToReact = eventToReact;
-        eventToReact.Register(newListener);
-        newListener.onReceiveEvent = new attachedUnityEvent();
-        newListener.onReceiveEvent.AddListener(_onInvoke);
-
-        return eventToReact;
+        _listener._eventToReact = _eventToReact;
+        _eventToReact.Register(_listener);
+        _listener._onReceiveEvent = new BindEvent();
+        _listener.onReceiveEvent.AddListener(_onInvoke);
     }
-
-    [System.Serializable]
-    public class attachedUnityEvent : UnityEvent<UnitInfo> { }
-
 }

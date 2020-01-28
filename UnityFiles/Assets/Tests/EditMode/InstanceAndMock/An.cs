@@ -1,4 +1,6 @@
-﻿public class An
+﻿using UnityEngine;
+
+public class An
 {
     public static ArmyDataBuilder Army()
     {

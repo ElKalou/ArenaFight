@@ -12,7 +12,7 @@ public class Selectable : MonoBehaviour
     private void Start()
     {
         isSelected = false;
-        attachedInfo = GetComponent<Unit>().unitInfo;
+        attachedInfo = GetComponent<Unit>().boundData;
     }
 
     public void Select()

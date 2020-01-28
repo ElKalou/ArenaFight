@@ -4,47 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-public class InputEventListener : ListenerBase<InputEvent>
+public class InputEventListener : ListenerBase<ScriptableObject>
 {
-    public attachedUnityEvent onReceiveEvent;
+    [SerializeField] private InputEvent _eventToReact = null;
+    [SerializeField] private BindEvent _onReceiveEvent = null;
 
-    private InputEventController controller;
-
-    private void Start()
-    {
-        controller = GetComponentInParent<InputEventController>();
-    }
-
-    public override void OnReceiveEvent(InputEvent receivedEvent)
-    {
-        if(controller == null || controller.isMaster)
-            onReceiveEvent.Invoke(receivedEvent.dataToSend);
-    }
-
-    protected override void OnDisable()
-    {
-        eventToReact.DeRegister(this);
-    }
-
-    protected override void OnEnable()
-    {
-        if (eventToReact == null)
-            return;
-
-        eventToReact.Register(this);
-    }
-
-    public static void AddComponentAtRunTime(GameObject _entity, InputEvent _eventToReact,
-        UnityAction<ScriptableObject> _onInvoke)
-    {
-        InputEventListener newListener = _entity.AddComponent<InputEventListener>();
-        newListener.eventToReact = _eventToReact;
-        _eventToReact.Register(newListener);
-        newListener.onReceiveEvent = new attachedUnityEvent();
-        newListener.onReceiveEvent.AddListener(_onInvoke);
-    }
+    public override EventBase<ScriptableObject> eventToReact => _eventToReact;
+    public override UnityEvent<ScriptableObject> onReceiveEvent => _onReceiveEvent;
 
     [Serializable]
-    public class attachedUnityEvent : UnityEvent<ScriptableObject> { }
-
+    public class BindEvent : UnityEvent<ScriptableObject> { }
 }

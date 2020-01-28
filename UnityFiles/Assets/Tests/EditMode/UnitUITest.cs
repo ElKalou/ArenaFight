@@ -13,14 +13,17 @@ namespace Tests
         [Test]
         public void Init_UnitUI_When_Instanciated_By_Factory()
         {
+            //Arrange
             UnitUI prefab = A.UnitUIPrefab();
-            IUnitUIFactory factory = A.MockUIFactory().With(A.UnitUIManager(), A.RandomTransform(), prefab).Build();
-            UnitUIFactoryController controller = new UnitUIFactoryController(factory);
+            IUnitUIFactory factoryView = A.MockUIFactory().With(A.UnitUIManager(), A.RandomTransform(), prefab).Build();
+            UnitUIFactoryController factoryController = new UnitUIFactoryController(factoryView);
 
             UnitInfo unitInfo = ScriptableObject.CreateInstance<UnitInfo>();
 
-            UnitUI instance = controller.SpawnUnitUI(unitInfo);
+            //Act
+            UnitUI instance = factoryController.SpawnUnitUI(unitInfo);
 
+            //Test
             Assert.NotNull(instance.boundData);
             Assert.AreEqual(unitInfo, instance.boundData);
         }
@@ -66,13 +69,6 @@ namespace Tests
             {
                 Assert.AreEqual(unitInfo.competences[i], instanceCompetenceButtons[i].boundCompetence);
             }
-        }
-
-        [Test]
-        public void Send_Event_Containing_Attached_Unit_On_Clik()
-        {
-
-
         }
     }
 }

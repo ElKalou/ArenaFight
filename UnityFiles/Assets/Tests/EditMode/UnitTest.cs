@@ -20,42 +20,62 @@ namespace Tests
         [Test]
         public void Always_Initialize_When_Instanciated_By_Factory()
         {
-            Unit spawnedUnit = factory.SpawnUnit(A.UnitPrefab(), A.RandomTransform());
-
-            Assert.NotNull(spawnedUnit.unitInfo);
+            //Arrange 
+            Unit prefabUnit = A.UnitPrefab();
+            //Act
+            Unit spawnedUnit = factory.SpawnUnit(prefabUnit, A.RandomTransform());
+            //Assert
+            Assert.NotNull(spawnedUnit.boundData);
         }
 
         [Test]
         public void Intitialize_With_Proper_Unit_Template()
         {
+            //Arrange
             Unit prefabUnit = A.UnitPrefab();
             UnitInfo originalUnitInfoTemplate = prefabUnit.UnitInfoTemplate;
-
+            //Act
             Unit spawnedUnit = factory.SpawnUnit(prefabUnit, A.RandomTransform());
             UnitInfo spawnedUnitInfoTemplate = spawnedUnit.UnitInfoTemplate;
-
+            //Assert
             Assert.AreEqual(originalUnitInfoTemplate, spawnedUnitInfoTemplate);
         }
 
         [Test]
         public void Send_Unit_Event_Containing_Unit_Info_When_Instanciated()
         {
-            Unit originalPrefab = A.UnitPrefab();
-
+            //Arrange           
             UnitInfo receivedUnitInfo = null;
+            Unit originalPrefab = A.UnitPrefab();
+            UnitEvent eventToReact = originalPrefab.eventToSend;
 
-            UnitEventListener.AddComponentAtRunTime(
-                new GameObject(),
-                originalPrefab.eventSetupUI, 
-                (UnitInfo unitInfo) => { receivedUnitInfo = unitInfo; }
+            UnitEventListener.AddComponentAtTestTime(
+                new GameObject().AddComponent<UnitEventListener>(),
+                eventToReact,
+                (UnitInfo receivedData) => { receivedUnitInfo = receivedData; }
                 );
-  
-            Unit spawnedUnit = factory.SpawnUnit(A.UnitPrefab(), A.RandomTransform());
-            UnitInfo originalUnitInfo = spawnedUnit.unitInfo;
 
+            //Act                
+            Unit spawnedUnit = factory.SpawnUnit(A.UnitPrefab(), A.RandomTransform());
+            UnitInfo originalUnitInfo = spawnedUnit.boundData;
+
+            //Assert
             Assert.AreEqual(originalUnitInfo, receivedUnitInfo);
 
-            originalPrefab.eventSetupUI.ResetEvent();
+            eventToReact.ResetEvent();
+        }
+
+        [TearDown]
+        public void AfterEveryTest()
+        {
+            UnitEventListener[] _listeners = Object.FindObjectsOfType<UnitEventListener>();
+            for (int i = 0; i < _listeners.Length; i++)
+                Object.DestroyImmediate(_listeners[i]);
+
+            UnitFactory[] _factories = Object.FindObjectsOfType<UnitFactory>();
+            for (int i = 0; i < _factories.Length; i++)
+                Object.DestroyImmediate(_factories[i]);
+
         }
 
     }

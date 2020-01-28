@@ -279,8 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5caee72be1926438b040d5bfe561b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToReact: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
-  onReceiveEvent:
+  _eventToReact: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
+  _onReceiveEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 343021387}
@@ -589,21 +589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e0cc5ac366812849b12ba8dd90b2c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToReact: {fileID: 11400000, guid: f8b00cdf4f1c364479e5c2738f027f8e, type: 2}
-  onReceiveEvent:
+  _eventToReact: {fileID: 0}
+  _onReceiveEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 739413906}
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &882133553
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,8 +669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5caee72be1926438b040d5bfe561b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToReact: {fileID: 11400000, guid: 22f05b110f7eb2c43b913ea8d23ab686, type: 2}
-  onReceiveEvent:
+  _eventToReact: {fileID: 11400000, guid: 22f05b110f7eb2c43b913ea8d23ab686, type: 2}
+  _onReceiveEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 882133556}
@@ -1247,21 +1236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28164fb8f2daf54892b28930819fa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToReact: {fileID: 11400000, guid: 6795e4d01a1cfc241beadaf5d8a0d2a0, type: 2}
-  onReceiveEvent:
+  _eventToReact: {fileID: 0}
+  _onReceiveEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2009362220}
-        m_MethodName: SetImage
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2009362220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,18 +1345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28164fb8f2daf54892b28930819fa14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventToReact: {fileID: 11400000, guid: bba8fc2716147b54589b24fbb951be94, type: 2}
-  onReceiveEvent:
+  _eventToReact: {fileID: 0}
+  _onReceiveEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2009362220}
-        m_MethodName: DisbaleLocalUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

@@ -19,7 +19,7 @@ public class MoveCompetence : Competence
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 target = hit.point;
-            if (Vector3.Distance(attachedUnit.transform.position, hit.point) < attachedUnit.unitInfo.displacement)
+            if (Vector3.Distance(attachedUnit.transform.position, hit.point) < attachedUnit.boundData.displacement)
             {
                 attachedUnit.GetComponent<NavMeshAgent>().SetDestination(target);
                 return true;

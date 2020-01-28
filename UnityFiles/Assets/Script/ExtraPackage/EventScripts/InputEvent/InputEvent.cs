@@ -3,26 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Event/InputEvent")]
-public class InputEvent : EventBase
+public class InputEvent : EventBase<ScriptableObject>
 {
-    public List<InputEventListener> listListeners { get; set; }
-    public ScriptableObject dataToSend { get; set; }
-
-    public void Register(InputEventListener listenerToRegister)
-    {
-        listListeners.Add(listenerToRegister);
-    }
-
-    public void DeRegister(InputEventListener listenerToRegister)
-    {
-        listListeners.Remove(listenerToRegister);
-    }
-
-    public override void Raise()
-    {
-        for (int i = listListeners.Count - 1; i >= 0; i--)
-        {
-            listListeners[i].OnReceiveEvent(this);
-        }
-    }
 }
