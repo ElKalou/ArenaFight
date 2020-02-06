@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
-public class Selectable : MonoBehaviour
+public class Selectable : MonoBehaviour, ISelectable
 {
-    public UnitInfo boundUnit { get; private set; }
+    public IUnit boundUnit { get; private set; }
     public bool isSelected { get; private set; }
 
     private void Start()
     {
         isSelected = false;
-        boundUnit = GetComponent<Unit>().boundData;
+        boundUnit = GetComponent<IUnit>();
     }
 
     public void Select()

@@ -10,11 +10,16 @@ public class UnitUIFactoryBuilder
         _factory = Substitute.For<IUnitUIFactory>();
     }
 
-    public UnitUIFactoryBuilder With(UnitUIManager instanceManager, Transform instanceParent, UnitUI prefab)
+    public UnitUIFactoryBuilder With(UnitUIManager instanceManager)
+    {
+        _factory.instanceManager.Returns(instanceManager);
+        return this;
+    }
+
+    public UnitUIFactoryBuilder With(UnitUIManager instanceManager, Transform instanceParent)
     {
         _factory.instanceManager.Returns(instanceManager);
         _factory.parentTransform.Returns(instanceParent);
-        _factory.prefabUnitUI.Returns(prefab);
         return this;
     }
 

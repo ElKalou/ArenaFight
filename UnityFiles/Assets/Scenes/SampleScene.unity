@@ -229,9 +229,8 @@ GameObject:
   m_Component:
   - component: {fileID: 343021384}
   - component: {fileID: 343021387}
-  - component: {fileID: 343021386}
   - component: {fileID: 343021385}
-  - component: {fileID: 343021388}
+  - component: {fileID: 343021386}
   m_Layer: 0
   m_Name: Units
   m_TagString: Untagged
@@ -265,8 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f55a8e690630d47ae36d59b0effb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armyData: {fileID: 11400000, guid: b7986b6add794ec4a85242d36496c265, type: 2}
-  _spawnPositions: {fileID: 1731720315}
+  _unitPrefabs:
+  - {fileID: 6630921988101556203, guid: c5e7f1fd7a7024a43ad039153bcac9c0, type: 3}
+  - {fileID: 2265021797597514270, guid: de0209da6ac858842a53b9d83c096099, type: 3}
 --- !u!114 &343021386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,24 +276,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 343021383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5caee72be1926438b040d5bfe561b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fc5877b615533547b4f09bc073db3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eventToReact: {fileID: 11400000, guid: 79d01f1b4cafcf543890298cf9761081, type: 2}
-  _onReceiveEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 343021387}
-        m_MethodName: OnReceiveSelectionRequest
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _unitTemplates:
+  - {fileID: 11400000, guid: f3040f52059943949a44c53636618652, type: 2}
+  - {fileID: 11400000, guid: 4f9009fdf9d1fb747aea5aafbbdf07ea, type: 2}
 --- !u!114 &343021387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,18 +292,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b9f044a7514add43bb372e2aea2d304, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &343021388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343021383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7778ea93a9e35ad4fa43a6298fe29b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &374336569
@@ -455,7 +431,6 @@ GameObject:
   - component: {fileID: 738202308}
   - component: {fileID: 738202307}
   - component: {fileID: 738202305}
-  - component: {fileID: 738202306}
   m_Layer: 5
   m_Name: SpriteAtMouse
   m_TagString: Untagged
@@ -491,20 +466,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &738202306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738202304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107d9d70117bc7e4ebf773141638e3ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  absOffset: {x: 5, y: 5, z: 0}
-  followMouse: 1
 --- !u!222 &738202307
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -586,7 +547,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 882133554}
-  - component: {fileID: 882133557}
   - component: {fileID: 882133556}
   - component: {fileID: 882133555}
   m_Layer: 5
@@ -641,33 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabUnitUI: {fileID: 6235815275844101435, guid: 1e0b799cc1257e0419fd24a08b5de84d,
     type: 3}
---- !u!114 &882133557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882133553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5caee72be1926438b040d5bfe561b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _eventToReact: {fileID: 11400000, guid: 22f05b110f7eb2c43b913ea8d23ab686, type: 2}
-  _onReceiveEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 882133556}
-        m_MethodName: OnSetupUI
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _onSetUpUI: {fileID: 11400000, guid: 22f05b110f7eb2c43b913ea8d23ab686, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2009362219
 MonoBehaviour:
   m_ObjectHideFlags: 0

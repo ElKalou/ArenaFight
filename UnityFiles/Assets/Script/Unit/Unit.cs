@@ -3,35 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour, IEventEmitter<UnitEvent, UnitInfo>
+[RequireComponent(typeof(Selectable))]
+public class Unit : MonoBehaviour, IUnitEventEmitter, IUnit
 {
-    [SerializeField] private UnitInfo _unitInfoTemplate = null;
-    [SerializeField] private UnitEvent _eventSetupUI = null;
+    [SerializeField] private UnitTemplate _unitTemplate = null;
+    [SerializeField] private UnitEvent _setUpUI = null;
 
-    public int unitID { get; private set; }
-    public UnitEvent eventToSend => _eventSetupUI;
-    public UnitInfo UnitInfoTemplate => _unitInfoTemplate;
-    public UnitInfo boundData { get; private set; }
+    //IUnitEventEmitter
+    public UnitEvent eventToSend => _setUpUI;
+    public IUnit dataToSend => this;
 
-    private EventEmitterController<UnitEvent, UnitInfo> _eventController;
+    //IUnit
+    public IUnitTemplate template => _unitTemplate;
+    public Transform unitTransform => transform;
+    public ISelectable selectable
+    {
+        get
+        {
+            if (_selectable == null)
+                _selectable = GetComponent<Selectable>();
+            return _selectable;
+        }
+    }
+    public List<Competence> competences { get; private set; } = new List<Competence>();
+    public int currentLife { get; protected set; }
+
+    private UnitEventEmitterController _eventController;
+    private UnitController _unitController;
+    private ISelectable _selectable;
 
     private void Awake()
     {
-        _eventController = new EventEmitterController<UnitEvent, UnitInfo>(this);
+        _eventController = new UnitEventEmitterController(this);
+        _unitController = new UnitController(this);
+
+        InitDataFromTemplate();
+
+        _eventController.RaiseEvent();
     }
 
-    public void Init()
+    private void InitDataFromTemplate()
     {
-        if(_eventController == null)
-            _eventController = new EventEmitterController<UnitEvent, UnitInfo>(this);
-
-        boundData = Instantiate(_unitInfoTemplate);
-        boundData.Init(this);
-        _eventController.RaiseEvent(this);
+        currentLife = _unitController.ChangeLife(template.maxLife);
+        competences = _unitController.InitCompetences();
     }
 
-    internal void SetID(int ID)
+    public void AddCompetence(ICompetenceTemplate toAdd)
     {
-        unitID = ID;
+        _unitController.AddCompetence(toAdd);
+    }
+
+    public void SetCurrentLife(int life)
+    {
+        _unitController.ChangeLife(life);
     }
 }

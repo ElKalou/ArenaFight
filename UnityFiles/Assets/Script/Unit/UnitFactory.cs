@@ -5,41 +5,55 @@ using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(UnitManager))]
-public class UnitFactory : MonoBehaviour
+public class UnitFactory : MonoBehaviour, IUnitFactory
 {
-    [SerializeField] private ArmyData _armyData = null;
-    [SerializeField] private SpawnTransform _spawnPositions = null;
+    [SerializeField] private List<Unit> _unitPrefabs = null;
 
-    public UnitManager unitManager { get; private set; }
-
-    public void Init()
+    //IUnitFactory
+    public IUnitManager instanceManager { get
+        {
+            if (_instanceManager == null)
+                _instanceManager = GetComponent<IUnitManager>();
+            return _instanceManager;
+        }
+    }
+    public List<IUnit> prefabs
     {
-        unitManager = GetComponent<UnitManager>();
+        get
+        {
+            if(_iUnitPrefabs == null && _unitPrefabs != null)
+            {
+                _iUnitPrefabs = new List<IUnit>();
+                foreach (Unit u in _unitPrefabs)
+                    _iUnitPrefabs.Add(u);
+            }
+            return _iUnitPrefabs;
+        }
+    }
+    public Transform parentTransform => transform;
+
+    private List<IUnit> _iUnitPrefabs = null;
+    private IUnitManager _instanceManager;
+
+    private UnitFactoryController _factoryController;
+
+    private void Awake()
+    {
+        _factoryController = new UnitFactoryController(this);
+        _factoryController.MakeDictionnary();
     }
 
-    private void Start()
+    public Unit SpawnUnit(UnitTemplate unitInfoTemplate, Transform spawnPosition)
     {
-        Init();
-        if(_armyData != null)
-            SpawnArmy(_armyData.units, _spawnPositions._transforms);
-    }
+        int prefabIdx = _factoryController.GetIndex(unitInfoTemplate);
 
-    public List<Unit> SpawnArmy(List<Unit> units, List<Transform> transforms)
-    {
-        List<Unit> instanciatedUnits = new List<Unit>();
-        for (int i = 0; i < Mathf.Min(units.Count, transforms.Count); i++)
-            instanciatedUnits.Add(SpawnUnit(units[i], transforms[i]));
-
-        return instanciatedUnits;
-    }
-
-    public Unit SpawnUnit(Unit unit, Transform spawnTransform)
-    {
-        Unit newUnit = (Unit)PrefabUtility.InstantiatePrefab(unit, this.transform);
-        newUnit.Init();
-        unitManager.RegisterNewUnit(newUnit.GetComponent<Selectable>());
-        newUnit.transform.position = spawnTransform.position;
-        newUnit.transform.rotation = spawnTransform.rotation;
+        Unit newUnit = Instantiate(
+            _unitPrefabs[prefabIdx], 
+            spawnPosition.position, 
+            spawnPosition.rotation, 
+            transform);
+        _factoryController.PassUnitToManager(newUnit);
         return newUnit;
     }
+    
 }

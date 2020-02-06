@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49e02d4b29579e498e11753ff8eda5d, type: 3}
+  m_Name: DwarfUnit
+  m_EditorClassIdentifier: 
+  _name: Dwarfy
+  _icon: {fileID: 21300000, guid: 73ae86c108d00524cbe878bb01924201, type: 3}
+  _maxLife: 20
+  _displacement: 4
+  _competenceTemplates:
+  - {fileID: 11400000, guid: 948d2e77e93e6fb409849c4cbb73f983, type: 2}
+  - {fileID: 11400000, guid: 70bd04b5feac88d40b5de884109047d4, type: 2}

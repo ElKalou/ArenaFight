@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using NSubstitute;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class A 
 {
     
-    public static UnitBuilder UnitPrefab()
+    public static MockUnitBuilder MockUnit()
     {
-        return new UnitBuilder();
-    }
-
-    public static UnitBuilder UnitPrefab(string path)
-    {
-        return new UnitBuilder(path);
+        return new MockUnitBuilder();
     }
 
     public static List<Transform> ListOfTransform(int count)
@@ -53,14 +49,14 @@ public class A
         return new GameObject().AddComponent<UnitUIManager>();
     }
 
-    public static UnitUIFactoryBuilder MockUIFactory()
+    public static UnitUIFactoryBuilder MockUnitUIFactory()
     {
         return new UnitUIFactoryBuilder();
     }
 
-    public static MockUnitInfoBuilder MockUnitInfo()
+    public static MockUnitInfoTemplateBuilder MockUnitInfoTemplate()
     {
-        return new MockUnitInfoBuilder();
+        return new MockUnitInfoTemplateBuilder();
     }
 
     public static InstanceType SO<InstanceType>() where InstanceType : ScriptableObject
@@ -68,14 +64,32 @@ public class A
         return ScriptableObject.CreateInstance<InstanceType>();
     }
 
-    public static EventListenerController<EventType, ListenerType, DataType> 
-        EventListenerController<EventType, ListenerType, DataType>(
-        IEventListener<EventType,  DataType> mockEventListener,
-        GameObject owner, UnityEvent<DataType> personalEvent)
-        where EventType:EventBase<DataType>
-        where ListenerType:ListenerBase<DataType>
+    public static UnitFactoryBuilder MockUnitFactory()
     {
-        return new EventListenerController<EventType, ListenerType, DataType>
-            (mockEventListener, owner, personalEvent);
+        return new UnitFactoryBuilder();
+    } 
+
+    public static ICompetenceTemplate MockCompetenceTemplate()
+    {
+        ICompetenceTemplate template = Substitute.For<ICompetenceTemplate>();
+        template.name.Returns(Util.GetRandomString());
+        return template;
     }
+
+    public static Competence Competence()
+    {
+        ICompetenceTemplate competanceTemplate = A.MockCompetenceTemplate();
+        CompetenceFactory competenceFactory = new CompetenceFactory();
+        Competence newCompetence = competenceFactory.GetCompetenceInstanceFromTemplate(competanceTemplate);
+        return newCompetence;
+    }
+
+    public static ICompetenceButtonFactory CompetenceButtonFactory()
+    {
+        ICompetenceButtonFactory toReturn = Substitute.For<ICompetenceButtonFactory>();
+        CompetenceButtonManager manager = new GameObject().AddComponent<CompetenceButtonManager>();
+        toReturn.instanceManager.Returns(manager);
+        return toReturn;
+    }
+ 
 }

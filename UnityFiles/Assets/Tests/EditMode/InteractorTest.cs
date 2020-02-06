@@ -9,22 +9,24 @@ namespace Tests
     public class InteractorTest
     {
         [UnityTest]
-        public IEnumerator True_If_Clicked_On_Selectable()
+        public IEnumerator True_If_Clicked_On_Selectable_With_Collider()
         {
             //Arrange
             Camera mainCam = Camera.main;
-
-            UnitFactory factory = new GameObject().AddComponent<UnitFactory>();
-            factory.Init();
             InteractorController interactor = new InteractorController(mainCam);
+            Selectable selectable = new GameObject().AddComponent<Selectable>();
+            CapsuleCollider collider = selectable.gameObject.AddComponent<CapsuleCollider>();
+            collider.radius = 1.5f;
+            collider.height = 1.5f;
+            collider.isTrigger = false;          
+            selectable.transform.position = A.RandomTransform().position;
+            yield return null;
 
             //Act
-            Unit spawnedUnit = factory.SpawnUnit(A.UnitPrefab(), A.RandomTransform());
-            yield return null; //for the navmesh agent to find a mesh
-            mainCam.transform.position = spawnedUnit.transform.position + new Vector3(10.0f, 10.0f, 10.0f);
-            mainCam.transform.LookAt(spawnedUnit.transform.position);
+            mainCam.transform.position = selectable.transform.position + new Vector3(5.0f, 5.0f, 5.0f);
+            mainCam.transform.LookAt(selectable.transform.position);
 
-            bool clikedOnUnit = interactor.ClickOnSelectable(mainCam.WorldToScreenPoint(spawnedUnit.transform.position));
+            bool clikedOnUnit = interactor.ClickOnSelectable(mainCam.WorldToScreenPoint(selectable.transform.position));
 
             //Assert
             Assert.IsTrue(clikedOnUnit);
@@ -35,19 +37,20 @@ namespace Tests
         {
             //Arrange
             Camera mainCam = Camera.main;
-
-            UnitFactory factory = new GameObject().AddComponent<UnitFactory>();
-            factory.Init();
             InteractorController interactor = new InteractorController(mainCam);
+            Selectable selectable = new GameObject().AddComponent<Selectable>();
+            CapsuleCollider collider = selectable.gameObject.AddComponent<CapsuleCollider>();
+            collider.radius = 1.5f;
+            collider.height = 1.5f;
+            collider.isTrigger = false;
+            selectable.transform.position = A.RandomTransform().position;
+            yield return null;
 
             //Act
-            Unit spawnedUnit = factory.SpawnUnit(A.UnitPrefab(), A.RandomTransform());
-            yield return null; //for the navmesh agent to find a mesh (but pos of the spawned unit does not change..)
-            mainCam.transform.position = spawnedUnit.transform.position + new Vector3(10.0f, 10.0f, 10.0f);
-            mainCam.transform.LookAt(spawnedUnit.transform.position);
+            mainCam.transform.position = selectable.transform.position + new Vector3(5.0f, 5.0f, 5.0f);
+            mainCam.transform.LookAt(selectable.transform.position);
 
-            bool clikedOnUnit = interactor.ClickOnSelectable(
-                mainCam.WorldToScreenPoint(spawnedUnit.transform.position) + new Vector3(100,100,100));
+            bool clikedOnUnit = interactor.ClickOnSelectable(mainCam.WorldToScreenPoint(-selectable.transform.position));
 
             //Assert
             Assert.IsFalse(clikedOnUnit);

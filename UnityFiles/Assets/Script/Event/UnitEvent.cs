@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Unit/UnitEvent")]
-public class UnitEvent : EventBase<UnitInfo>
+public class UnitEvent : EventBase<IUnit>
 {   
 }

@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : MonoBehaviour, IUnitManager
 {
-    public List<Selectable> selectables { get; private set; } = new List<Selectable>();
+    public List<ISelectable> workers { get; private set; } = new List<ISelectable>();
 
-    private Selectable currentUnitSelected;
+    private ISelectable currentUnitSelected;
 
-    public void OnReceiveSelectionRequest(UnitInfo infoReceived)
+    public void RegisterNewElement(ISelectable newUnit)
     {
-        Debug.Log("receive selection event");
+        if (!workers.Contains(newUnit))
+            workers.Add(newUnit);
+    }
+
+    public void OnReceiveSelectionRequest(Unit infoReceived)
+    {
+        /*Debug.Log("receive selection event");
         if (currentUnitSelected != null && infoReceived == currentUnitSelected.boundUnit)
             return;
 
         if (currentUnitSelected != null)
             currentUnitSelected.Unselect();
         currentUnitSelected = selectables.Find(v => v.boundUnit == infoReceived);
-        currentUnitSelected.Select();
+        currentUnitSelected.Select();*/
     }
 
-    public void RegisterNewUnit(Selectable newUnit)
-    {
-        if (!selectables.Contains(newUnit))
-            selectables.Add(newUnit);
-
-        newUnit.GetComponent<Unit>().SetID(selectables.FindIndex(x => x == newUnit));
-    }
+   
 }

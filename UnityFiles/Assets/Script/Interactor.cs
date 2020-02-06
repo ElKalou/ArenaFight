@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactor : MonoBehaviour, IEventEmitter<UnitEvent, UnitInfo>, 
-    IEventListener<InputEvent, ScriptableObject>
+public class Interactor : MonoBehaviour, IUnitEventEmitter, IInputEventListener
 {
     [Header("Event to Send")]
     [SerializeField] private UnitEvent _selectionRequest = null;
@@ -12,21 +11,20 @@ public class Interactor : MonoBehaviour, IEventEmitter<UnitEvent, UnitInfo>,
     [SerializeField] private InputEvent _leftClick = null;
 
     private InteractorController _interactorController;
-    private EventEmitterController<UnitEvent, UnitInfo> _senderController;
-    private EventListenerController<InputEvent, InputEventListener, ScriptableObject> _listenerController;
+    private UnitEventEmitterController _senderController;
+    private InputEventListenerController _listenerController;
 
     //IEventListener
     public InputEvent eventToListen => _leftClick;
     //IEventSender
     public UnitEvent eventToSend => _selectionRequest;
-    public UnitInfo boundData { get; private set; }
+    public IUnit dataToSend { get; private set; }
 
     private void Start()
     {
         _interactorController = new InteractorController(Camera.main);
-        _senderController = new EventEmitterController<UnitEvent, UnitInfo>(this);
-        _listenerController = new EventListenerController<InputEvent, InputEventListener, ScriptableObject>
-            (this, gameObject, new InputEventListener.BindEvent());
+        _senderController = new UnitEventEmitterController(this);
+        _listenerController = new InputEventListenerController(this, gameObject);
 
         _listenerController.AddListenerComponent();
     }
@@ -35,6 +33,6 @@ public class Interactor : MonoBehaviour, IEventEmitter<UnitEvent, UnitInfo>,
     public void OnReceiveEvent(ScriptableObject unused)
     {
         if (_interactorController.ClickOnSelectable(Input.mousePosition))
-            _senderController.RaiseEvent(this); 
+            _senderController.RaiseEvent(); 
     }
 }

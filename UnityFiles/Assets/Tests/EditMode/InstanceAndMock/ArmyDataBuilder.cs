@@ -31,7 +31,7 @@ public class ArmyDataBuilder
     {
         for (int i = 0; i < numberOfUnits; i++)
         {
-            _armyData.AddUnit(A.UnitPrefab());
+            //_armyData.AddUnit(A.MockUnit().Build());
         }
         return this;
     }

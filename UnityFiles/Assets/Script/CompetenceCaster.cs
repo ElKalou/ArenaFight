@@ -18,7 +18,7 @@ public class CompetenceCaster : MonoBehaviour
 
     public void ReceiveCompetence(Competence receivedCompetence)
     {
-        if (receivedCompetence.attachedUnit != this.attachedUnit)
+        if (receivedCompetence.bindUnit != this.attachedUnit)
             activeCompetence = null;
         else
             activeCompetence = receivedCompetence;

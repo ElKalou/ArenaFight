@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -9,125 +10,53 @@ namespace Tests
 {
     public class UnitFactoryTest
     {
-        UnitFactory unitFactory;
-        int numberOfUnits;
 
-        [SetUp]
-        public void BeforeEveryTest()
+        [Test]
+        public void Make_Dictionary()
         {
-            unitFactory = new GameObject().AddComponent<UnitFactory>();
-            unitFactory.Init();
-            numberOfUnits = 20;
+            //Arrange
+            List<IUnit> prefabs = new List<IUnit>(){ A.MockUnit().Build(), A.MockUnit().Build(), A.MockUnit().Build()};
+            int numberOfPrefabs = prefabs.Count;
+            IUnitFactory unitFactory = A.MockUnitFactory().With(prefabs).Build();
+
+            UnitFactoryController factoryController = new UnitFactoryController(unitFactory);
+
+            //Act
+            factoryController.MakeDictionnary();
+
+            //Assert
+            foreach (IUnit prefab in prefabs)
+                Assert.IsTrue(factoryController.unitsAvailable.ContainsKey(prefab.template));
         }
 
         [Test]
-        public void _Proper_Loading_()
+        public void Get_Correct_Index_From_UnitInfoTemplate()
         {
-            Assert.NotNull(A.UnitPrefab());
-            Assert.NotNull(An.Army().With(numberOfUnits));
-        }
+            //Arrange
+            List<IUnit> prefabs = new List<IUnit>() { A.MockUnit().Build(), A.MockUnit().Build(), A.MockUnit().Build() };
+            int numberOfPrefabs = prefabs.Count;
+            IUnitFactory unitFactory = A.MockUnitFactory().With(prefabs).Build();
+            UnitFactoryController factoryController = new UnitFactoryController(unitFactory);
 
-        [Test]
-        public void Instantiate_Unit_From_Unit_Prefab()
-        {
-            Unit originalPrefab = A.UnitPrefab();
-            Transform spawnTransform = A.RandomTransform();
-
-            Unit spawnedUnit = unitFactory.SpawnUnit(originalPrefab, spawnTransform);
-            Unit prefabOfTheSpawnedUnit = PrefabUtility.GetCorrespondingObjectFromSource(spawnedUnit);
-
-            Assert.AreEqual(originalPrefab, prefabOfTheSpawnedUnit);
-        }
-
-        [Test]
-        public void Spawn_Unit_With_Proper_Position_And_Rotation()
-        {
-            Unit originalPrefab = A.UnitPrefab();
-            Transform spawnTransform = A.RandomTransform();
-
-            Unit spawnedUnit = unitFactory.SpawnUnit(originalPrefab, spawnTransform);
-
-            Assert.AreEqual(spawnedUnit.transform.position, spawnTransform.position);
-            Assert.AreEqual(spawnedUnit.transform.rotation, spawnTransform.rotation);
-
-        }
-
-        [Test]
-        public void Pass_Unit_Info_To_Unit_Manager()
-        {
-            Unit originalPrefab = A.UnitPrefab();
-            Transform spawnTransform = A.RandomTransform();
-
-            Unit spawnedUnit = unitFactory.SpawnUnit(originalPrefab, spawnTransform);
-            Selectable spawnedSelectable = spawnedUnit.GetComponent<Selectable>();
-
-            Assert.True(unitFactory.unitManager.selectables.Contains(spawnedSelectable));
-        }
-
-        [Test]
-        public void Instantiate_Units_As_Children_Of_Factory()
-        {
-            ArmyData army = An.Army().With(numberOfUnits);
-            List<Transform> spawnTransforms = A.ListOfTransform(numberOfUnits);
-
-            unitFactory.SpawnArmy(army.units, spawnTransforms);
-            Unit[] instanciatedUnits = unitFactory.GetComponentsInChildren<Unit>();
-
-            Assert.AreEqual(instanciatedUnits.Length, army.units.Count);
-        }
-
-        [Test]
-        public void Instantiate_Units_From_Army_Data()
-        {
-            ArmyData army = An.Army().With(numberOfUnits);
-            List<Transform> spawnTransforms = A.ListOfTransform(numberOfUnits);
-
-            List<Unit> instanciatedUnits = unitFactory.SpawnArmy(army.units, spawnTransforms);
-            List<Unit> prefabsOfTheSpawnedUnits = new List<Unit>();
-            foreach (Unit unit in instanciatedUnits)
-                prefabsOfTheSpawnedUnits.Add(PrefabUtility.GetCorrespondingObjectFromSource(unit));
-
-            Assert.AreEqual(army.units, prefabsOfTheSpawnedUnits);
-        }
-
-        [Test]
-        public void Spawn_Units_With_Proper_Position_And_Rotation()
-        {
-            ArmyData army = An.Army().With(numberOfUnits);
-            List<Transform> spawnTransforms = A.ListOfTransform(numberOfUnits);
-
-            List<Unit> instanciatedUnits = unitFactory.SpawnArmy(army.units, spawnTransforms);
-
-            List<Transform> transformsOfTheSpawnUnits = new List<Transform>();
-            foreach (Unit unit in instanciatedUnits)
-                transformsOfTheSpawnUnits.Add(unit.transform);
-
-            float eps = float.Epsilon;
-            for (int i = 0; i < transformsOfTheSpawnUnits.Count; i++)
+            //Act + Assert
+            foreach (IUnit prefab in prefabs)
             {
-                 Assert.GreaterOrEqual(eps, Vector3.Magnitude(spawnTransforms[i].position - transformsOfTheSpawnUnits[i].position));
-                 Assert.GreaterOrEqual(eps, Vector3.Magnitude(spawnTransforms[i].eulerAngles - transformsOfTheSpawnUnits[i].eulerAngles));
+                int returnIdx = factoryController.GetIndex(prefab.template);
+                Assert.AreEqual(prefabs[returnIdx], prefab);
             }
         }
 
         [Test]
-        public void Pass_Units_Info_To_Unit_Manager()
+        public void Pass_Unit_To_Manager()
         {
-            ArmyData army = An.Army().With(numberOfUnits);
-            List<Transform> spawnTransforms = A.ListOfTransform(numberOfUnits);
+            IUnitFactory unitFactory = A.MockUnitFactory().Build();
+            UnitFactoryController factoryController = new UnitFactoryController(unitFactory);
+            IUnit unitToPass = A.MockUnit().Build();
 
-            List<Unit> instanciatedUnits = unitFactory.SpawnArmy(army.units, spawnTransforms);
+            factoryController.PassUnitToManager(A.MockUnit().Build());
 
-            Selectable[] instanciatedSelectables = new Selectable[instanciatedUnits.Count];
-
-            for (int i = 0; i < instanciatedUnits.Count; i++)
-            {
-                instanciatedSelectables[i] = instanciatedUnits[i].GetComponent<Selectable>();
-                Assert.True(unitFactory.unitManager.selectables.Contains(instanciatedSelectables[i]));
-            }
+            unitFactory.instanceManager.workers.Contains(unitToPass.selectable);
         }
-
         
-
     }
 }
