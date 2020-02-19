@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Selectable))]
 public class Unit : MonoBehaviour, IUnitEventEmitter, IUnit
@@ -26,7 +27,9 @@ public class Unit : MonoBehaviour, IUnitEventEmitter, IUnit
         }
     }
     public List<Competence> competences { get; private set; } = new List<Competence>();
-    public int currentLife { get; protected set; }
+    public float currentLife { get; protected set; }
+    public Navigator navigator { get; private set; }
+    public AnimatorController animator { get; private set; }
 
     private UnitEventEmitterController _eventController;
     private UnitController _unitController;
@@ -36,15 +39,23 @@ public class Unit : MonoBehaviour, IUnitEventEmitter, IUnit
     {
         _eventController = new UnitEventEmitterController(this);
         _unitController = new UnitController(this);
+        navigator = GetComponentInChildren<Navigator>();
+        animator = GetComponentInChildren<AnimatorController>();
 
         InitDataFromTemplate();
 
         _eventController.RaiseEvent();
     }
 
+    internal void TakeDamage(float damage)
+    {
+        Debug.Log(string.Format("unit {0} take {1} damage", name, damage)); //feedback
+        SetCurrentLife(currentLife - damage);
+    }
+
     private void InitDataFromTemplate()
     {
-        currentLife = _unitController.ChangeLife(template.maxLife);
+        SetCurrentLife(template.maxLife);
         competences = _unitController.InitCompetences();
     }
 
@@ -53,8 +64,20 @@ public class Unit : MonoBehaviour, IUnitEventEmitter, IUnit
         _unitController.AddCompetence(toAdd);
     }
 
-    public void SetCurrentLife(int life)
+    public void SetCurrentLife(float newLife)
     {
-        _unitController.ChangeLife(life);
+        currentLife = newLife;
+    }
+
+
+    private void Update()
+    {
+        foreach (Competence comp in competences) //in competenceManager ?? 
+            comp.Tick();
+    }
+
+    public float GetDisplacement()
+    {
+        return template.displacement; //to determine from template + charac + inventory...
     }
 }

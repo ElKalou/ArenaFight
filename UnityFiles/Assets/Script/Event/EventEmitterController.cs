@@ -3,7 +3,7 @@
 public abstract class EventEmitterController<EventType, DataType> 
     where EventType : EventBase<DataType>
 {
-    private IEventEmitter<EventType, DataType>_view;
+    private IEventEmitter<EventType, DataType> _view;
 
     public EventEmitterController(IEventEmitter<EventType, DataType> view)
     {
@@ -12,6 +12,7 @@ public abstract class EventEmitterController<EventType, DataType>
 
     public void RaiseEvent()
     {
+        Debug.Log("Event " + _view.eventToSend.name + " raised with data " + _view.dataToSend );
         _view.eventToSend.dataToSend = _view.dataToSend;
         _view.eventToSend.Raise();
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public interface IUnit
 {
@@ -9,8 +10,13 @@ public interface IUnit
     //Messy
     Transform unitTransform { get; }
     ISelectable selectable { get; }
+    Navigator navigator { get; }
+    AnimatorController animator { get; }
 
     //Variable
     List<Competence> competences { get; }
-    int currentLife { get; }
+    float currentLife { get; }
+
+    //Fonction
+    float GetDisplacement();
 }

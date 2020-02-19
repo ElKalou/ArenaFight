@@ -11,6 +11,12 @@ public class UnitTemplate : ScriptableObject, IUnitTemplate
     [SerializeField] private float _displacement = 0;
     [Header("Unit competences")]
     [SerializeField] private List<CompetenceTemplate> _competenceTemplates = new List<CompetenceTemplate>();
+    [Header("Unit Animation")]
+    [SerializeField] private AnimationClip _idle = null;
+    [SerializeField] private AnimationClip _run = null;
+    [SerializeField] private AnimationClip _meleeAttack = null;
+    [SerializeField] private AnimationClip _rangeAttack = null;
+    [SerializeField] private AnimationClip _magicAttack = null;
 
     public new string name => _name;
     public int maxLife => _maxLife;
@@ -31,6 +37,11 @@ public class UnitTemplate : ScriptableObject, IUnitTemplate
         }
     }
 
+    public AnimationClip idle => _idle;
+    public AnimationClip run => _run;
+    public AnimationClip meleeAttack => _meleeAttack;
+    public AnimationClip rangeAttack => _rangeAttack;
+    public AnimationClip magicAttack => _magicAttack;
 
     private List<ICompetenceTemplate> _iCompetenceTemplates = null;
 }

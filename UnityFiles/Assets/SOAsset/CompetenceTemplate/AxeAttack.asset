@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AxeAttack
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 172774604c1bee84185a69041576525b, type: 3}
-  _name: melee attack
+  _name: axe attack
   _coolDown: 8
   _damage: 5

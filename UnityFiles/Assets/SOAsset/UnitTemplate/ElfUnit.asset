@@ -19,4 +19,3 @@ MonoBehaviour:
   _competenceTemplates:
   - {fileID: 11400000, guid: 948d2e77e93e6fb409849c4cbb73f983, type: 2}
   - {fileID: 11400000, guid: cbb927023396f194b9b6ce45f76d76b2, type: 2}
-  - {fileID: 11400000, guid: 898b009faf6fd4342ab47f81d9a53e11, type: 2}

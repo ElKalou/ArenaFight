@@ -7,37 +7,70 @@ using UnityEngine;
 public abstract class Competence
 {
     public ICompetenceTemplate template { get; private set; }
+    public IUnit caster { get; private set; }
+    public bool canBeCast { get; private set; }
+    public Vector3 target { get; internal set; }
 
     public float coolDownTimer { get; private set; }
 
     public abstract CompetenceId id { get; }
 
-    //Unit info
-    public Unit bindUnit {
-        get
+    private MeshRenderer _meshInstance;
+
+    public void PreCast()
+    {
+        if (_meshInstance == null)
+            _meshInstance = UnityEngine.Object.Instantiate(template.rangeMesh, caster.unitTransform);
+        else
+            _meshInstance.enabled = true;
+        Vector3 oldScale = _meshInstance.transform.localScale;
+        float unitDisplacement = GetRange();
+        _meshInstance.transform.localScale = new Vector3(
+                unitDisplacement * 2,
+                oldScale.y,
+                unitDisplacement * 2
+            );
+    }
+
+    public abstract float GetRange();
+
+    public abstract bool TryCast();
+
+    public abstract void Cast(Vector3 target);
+
+
+    public void EndCast()
+    {
+        ResetCoolDown();
+        _meshInstance.enabled = false;
+    }
+
+    public Competence(ICompetenceTemplate templateUse, IUnit caster)
+    {
+        this.caster = caster;
+        template = templateUse;
+    }
+
+    public void Tick()
+    {
+        coolDownTimer += Time.deltaTime;
+        if (coolDownTimer > GetCoolDown())
         {
-            if(_bindUnit == null)
-            {
-                if (_unitTransform == null)
-                    return null;
-                _bindUnit = _unitTransform.GetComponent<Unit>();
-            }
-            return _bindUnit;
+            coolDownTimer = GetCoolDown();
+            canBeCast = true;
         }
-        private set { }
-    }
-    private Unit _bindUnit;
-    private Transform _unitTransform;
-
-    public abstract bool CastCompetence();
-
-    internal void SetUnitTransform(Transform ownerTransform)
-    {
-        _unitTransform = ownerTransform;
+        else
+            canBeCast = false;
     }
 
-    internal void InitDataFromTemplate(ICompetenceTemplate competenceTemplate)
+    protected void ResetCoolDown()
     {
-        template = competenceTemplate;
+        coolDownTimer = 0.0f;
+        canBeCast = false;
+    }
+
+    public float GetCoolDown()
+    {
+        return template.coolDown;
     }
 }

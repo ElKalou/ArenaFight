@@ -8,9 +8,11 @@ public class CompetenceFactory
 {
     private Dictionary<CompetenceId, Type> _availableComp;
     private IEnumerable<Type> _competenceTypes;
+    private IUnit _caster;
 
-    public CompetenceFactory()
+    public CompetenceFactory(IUnit caster)
     {
+        _caster = caster;
         MakeDictionnary();
     }
 
@@ -20,9 +22,10 @@ public class CompetenceFactory
         _competenceTypes = Assembly.GetAssembly(typeof(Competence)).GetTypes()
             .Where(myType => !myType.IsAbstract && myType.IsSubclassOf(typeof(Competence)));
 
+        object[] constructorParameter = new object[] { null, null };
         foreach (var type in _competenceTypes)
         {
-            Competence tempInstance = Activator.CreateInstance(type) as Competence;
+            Competence tempInstance = Activator.CreateInstance(type, constructorParameter) as Competence;
             _availableComp.Add(tempInstance.id, type);
         }
     }
@@ -33,8 +36,8 @@ public class CompetenceFactory
             return null;
 
         Type competenceType = _availableComp[template.id];
-        Competence toReturn = Activator.CreateInstance(competenceType) as Competence;
-        toReturn.InitDataFromTemplate(template);
+        object[] constructorParameter = new object[] { template, _caster };
+        Competence toReturn = Activator.CreateInstance(competenceType, constructorParameter) as Competence;
         return toReturn;
     }
 }

@@ -11,12 +11,7 @@ public class UnitController
     public UnitController(IUnit unit)
     {
         _unit = unit;
-        compFactory = new CompetenceFactory();
-    }
-
-    public int ChangeLife(int newLife)
-    {
-        return newLife;
+        compFactory = new CompetenceFactory(unit);
     }
 
     public List<Competence> InitCompetences()

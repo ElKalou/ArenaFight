@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAttack : Competence
+/*public class MeleeAttack : Competence
 {
     public override CompetenceId id => CompetenceId.MeleeAttack;
 
-    public override bool CastCompetence()
+    public override bool Cast()
     {
-        Debug.Log(bindUnit.name + " cast melee attack");
+        Debug.Log(bindUnit + " cast melee attack");
         return true;
     }
-}
+}*/

@@ -79,7 +79,8 @@ public class A
     public static Competence Competence()
     {
         ICompetenceTemplate competanceTemplate = A.MockCompetenceTemplate();
-        CompetenceFactory competenceFactory = new CompetenceFactory();
+        IUnit caster = A.MockUnit().Build();
+        CompetenceFactory competenceFactory = new CompetenceFactory(caster);
         Competence newCompetence = competenceFactory.GetCompetenceInstanceFromTemplate(competanceTemplate);
         return newCompetence;
     }

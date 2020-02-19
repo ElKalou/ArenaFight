@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: e420c5bc93cb2604695a893500c897e3, type: 3}
   _name: Move
-  _coolDown: 10
+  _coolDown: 1
+  _rangeMesh: {fileID: 7461980330729267093, guid: e15806e9da27f3a4088e43937f35a709,
+    type: 3}
+  _range: 1
+  _unitTrail: {fileID: 6012250473815781442, guid: 68afbe1c6c1d8174586319fc989c24b7,
+    type: 3}
   _speed: 10

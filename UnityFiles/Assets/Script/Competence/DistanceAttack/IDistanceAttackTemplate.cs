@@ -1,5 +1,6 @@
-﻿public interface IDistanceAttackTemplate
+﻿public interface IDistanceAttackTemplate : ICompetenceTemplate
 {
+    Projectile projectile { get; }
     float damage { get; }
-    int distance { get; }
+    ProjectilePool projectilePool { get; }
 }

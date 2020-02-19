@@ -43,3 +43,11 @@ public class UnitEventListenerController : EventListenerController<UnitEvent, Un
         _bindEvent = new UnitEventListener.BindEvent();
     }
 }
+
+public class CompetenceEventListenerController : EventListenerController<CompetenceEvent, CompetenceEventListener, Competence>
+{
+    public CompetenceEventListenerController(ICompetenceEventListener view, GameObject owner) : base(view, owner)
+    {
+        _bindEvent = new CompetenceEventListener.BindEvent();
+    }
+}

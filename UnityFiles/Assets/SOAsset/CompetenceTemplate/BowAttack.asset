@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da1f58e4ef7b234aa94832c4e558367, type: 3}
+  m_Name: BowAttack
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 5d7061fc7da05ce44add317708ec7215, type: 3}
+  _name: Bow Attack
+  _coolDown: 1
+  _rangeMesh: {fileID: 7461980330729267093, guid: e15806e9da27f3a4088e43937f35a709,
+    type: 3}
+  _range: 10
+  _projectile: {fileID: 3095225940441539322, guid: ad44f2e95240bad41b0ffda601d98a72,
+    type: 3}
+  _damage: 0

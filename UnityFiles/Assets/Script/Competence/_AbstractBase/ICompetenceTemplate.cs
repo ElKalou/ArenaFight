@@ -6,4 +6,6 @@ public interface ICompetenceTemplate
     Sprite icon { get; }
     string name { get; }
     CompetenceId id { get; }
+    float range { get; }
+    MeshRenderer rangeMesh { get; }
 }

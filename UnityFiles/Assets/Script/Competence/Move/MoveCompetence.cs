@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,26 +7,52 @@ using UnityEngine.UI;
 
 public class MoveCompetence : Competence
 {
-    private Camera mainCam;
+    private Camera _mainCam;
 
     public override CompetenceId id => CompetenceId.Move;
 
-    public override bool CastCompetence()
-    {
-        if (mainCam == null)
-            mainCam = Camera.main;
+    public new IMoveCompetenceTemplate template { get; private set; }
 
-        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+    private MeshRenderer _meshInstance;
+
+    public MoveCompetence(IMoveCompetenceTemplate template, IUnit caster) : base(template, caster)
+    {
+       this.template = template;
+        _mainCam = Camera.main;
+    }
+
+    public override float GetRange()
+    {
+        return caster.GetDisplacement() * template.range;
+    }
+
+    public float GetMaxVelocity()
+    {
+        return template.speed;
+    }
+
+    public override bool TryCast()
+    {                 
+        if (!canBeCast)
+            return false;
+
+        Ray ray = _mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Vector3 target = hit.point;
-            if (Vector3.Distance(bindUnit.transform.position, hit.point) < bindUnit.dataToSend.template.displacement)
-            {
-                bindUnit.GetComponent<NavMeshAgent>().SetDestination(target);
+            target = hit.point;
+            if (Vector3.Distance(caster.unitTransform.position, hit.point) < GetRange())
                 return true;
-            }
         }
+
         return false;
     }
+
+    public override void Cast(Vector3 target)
+    {
+        caster.navigator.SetDestination(target, this);
+    }
+
+
+    
 }

@@ -18,4 +18,3 @@ MonoBehaviour:
   _displacement: 4
   _competenceTemplates:
   - {fileID: 11400000, guid: 948d2e77e93e6fb409849c4cbb73f983, type: 2}
-  - {fileID: 11400000, guid: 70bd04b5feac88d40b5de884109047d4, type: 2}
